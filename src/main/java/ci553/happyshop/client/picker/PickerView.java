@@ -99,7 +99,7 @@ public class PickerView  {
         return vbOrderDetailsRoot;
     }
 
-    private void buttonClicked(ActionEvent event) {
+    private void buttonClicked(ActionEvent event) throws RuntimeException {
         Button button = (Button) event.getSource();
         String btnText = button.getText();
         try {
