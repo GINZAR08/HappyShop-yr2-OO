@@ -2,7 +2,7 @@ package ci553.happyshop.orderManagement;
 
 import ci553.happyshop.catalogue.Order;
 import ci553.happyshop.catalogue.Product;
-import ci553.happyshop.client.orderTracker.OrderTracker;
+import ci553.happyshop.client.orderTracker.OrderTrackerObserver;
 import ci553.happyshop.client.picker.PickerModel;
 import ci553.happyshop.storageAccess.OrderFileManager;
 import ci553.happyshop.utility.StorageLocation;
@@ -48,18 +48,16 @@ public class OrderHub  {
     private final Path collectedPath = StorageLocation.collectedPath;
 
     private TreeMap<Integer,OrderState> orderMap = new TreeMap<>();
-    private TreeMap<Integer,OrderState> OrderedOrderMap = new TreeMap<>();
-    private TreeMap<Integer,OrderState> progressingOrderMap = new TreeMap<>();
 
     /**
-     * Two Lists to hold all registered OrderTracker and PickerModel observers.
+     * Two Lists to hold all registered OrderTrackerObserver and PickerModel observers.
      * These observers are notified whenever the orderMap is updated,
      * but each observer is only notified of the parts of the orderMap that are relevant to them.
      * - OrderTrackers will be notified of the full orderMap, including all orders (ordered, progressing, collected),
      *   but collected orders are shown for a limited time (10 seconds).
      * - PickerModels will be notified only of orders in the "ordered" or "progressing" states, filtering out collected orders.
      */
-    private ArrayList<OrderTracker> orderTrackerList = new ArrayList<>();
+    private ArrayList<OrderTrackerObserver> orderTrackerList = new ArrayList<>();
     private ArrayList<PickerModel> pickerModelList = new ArrayList<>();
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -92,39 +90,53 @@ public class OrderHub  {
         return theOrder;
     }
 
-    //Registers an OrderTracker to receive updates about changes.
-    public void registerOrderTracker(OrderTracker orderTracker){
+    //Registers an OrderTrackerObserver to receive updates about changes.
+    public void registerOrderTracker(OrderTrackerObserver orderTracker){
         orderTrackerList.add(orderTracker);
     }
      //Notifies all registered observer_OrderTrackers to update and display the latest orderMap.
     public void notifyOrderTrackers(){
-        for(OrderTracker orderTracker : orderTrackerList){
+        for(OrderTrackerObserver orderTracker : orderTrackerList){
             orderTracker.setOrderMap(orderMap);
         }
     }
 
     //Registers a PickerModel to receive updates about changes.
     public void registerPickerModel(PickerModel pickerModel){
-        pickerModelList.add(pickerModel);
+        synchronized (pickerModelList) {
+            pickerModelList.add(pickerModel);
+        }
     }
 
     //notify all pickers to show orderMap (only ordered and progressing states orders)
     public void notifyPickerModels(){
+        // Use local variables and avoid unnecessary clearing
         TreeMap<Integer,OrderState> orderMapForPicker = new TreeMap<>();
-        progressingOrderMap = filterOrdersByState(OrderState.Progressing);
-        OrderedOrderMap = filterOrdersByState(OrderState.Ordered);
-        orderMapForPicker.putAll(progressingOrderMap);
-        orderMapForPicker.putAll(OrderedOrderMap);
-        for(PickerModel pickerModel : pickerModelList){
-            pickerModel.setOrderMap(orderMapForPicker);
+        TreeMap<Integer,OrderState> progressingOrderMapLocal = filterOrdersByState(OrderState.Progressing);
+        TreeMap<Integer,OrderState> orderedOrderMapLocal = filterOrdersByState(OrderState.Ordered);
+        orderMapForPicker.putAll(progressingOrderMapLocal);
+        orderMapForPicker.putAll(orderedOrderMapLocal);
+        // Defensive copy for thread safety
+        ArrayList<PickerModel> pickersSnapshot;
+        synchronized (pickerModelList) {
+            pickersSnapshot = new ArrayList<>(pickerModelList);
+        }
+        for(PickerModel pickerModel : pickersSnapshot){
+            if (pickerModel != null) {
+                pickerModel.setOrderMap(orderMapForPicker);
+            }
         }
     }
 
     // Filters orderMap that match the specified state, a helper class used by notifyPickerModel()
     private TreeMap<Integer, OrderState> filterOrdersByState(OrderState state) {
-        TreeMap<Integer, OrderState> filteredOrderMap = new TreeMap<>(); // New map to hold filtered orders
-        // Loop through the orderMap and add matching orders to filteredOrders
-        for (Map.Entry<Integer, OrderState> entry : orderMap.entrySet()) {
+        TreeMap<Integer, OrderState> filteredOrderMap = new TreeMap<>();
+        // Defensive copy for thread safety
+        Map<Integer, OrderState> orderMapSnapshot;
+        synchronized (orderMap) {
+            orderMapSnapshot = new TreeMap<>(orderMap);
+        }
+        for (Map.Entry<Integer, OrderState> entry : orderMapSnapshot.entrySet()) {
             if (entry.getValue() == state) {
                 filteredOrderMap.put(entry.getKey(), entry.getValue());
             }
@@ -135,23 +147,26 @@ public class OrderHub  {
     //Changes the state of the specified order, updates its file, and moves it to the appropriate folder.
     //trigger by PickerModel
     public void changeOrderStateMoveFile(int orderId, OrderState newState) throws IOException {
-        if(orderMap.containsKey(orderId) && !orderMap.get(orderId).equals(newState))
-        {
-            //change orderState in OrderMap, notify OrderTrackers and pickers
-            orderMap.put(orderId, newState);
-            notifyOrderTrackers();
-            notifyPickerModels();
-
-            //change orderState in order file and move the file to new state folder
-            switch(newState){
-                case OrderState.Progressing:
-                    OrderFileManager.updateAndMoveOrderFile(orderId, newState,orderedPath,progressingPath);
-                    break;
-                case OrderState.Collected:
-                    OrderFileManager.updateAndMoveOrderFile(orderId, newState,progressingPath,collectedPath);
-                    removeCollectedOrder(orderId); //Scheduled removal
-                    break;
+        synchronized (orderMap) {
+            if(orderMap.containsKey(orderId) && !orderMap.get(orderId).equals(newState)) {
+                //change orderState in OrderMap, notify OrderTrackers and pickers
+                orderMap.put(orderId, newState);
             }
+        }
+        notifyOrderTrackers();
+        notifyPickerModels();
+        //change orderState in order file and move the file to new state folder
+        switch(newState){
+            case OrderState.Progressing:
+                OrderFileManager.updateAndMoveOrderFile(orderId, newState,orderedPath,progressingPath);
+                break;
+            case OrderState.Collected:
+                OrderFileManager.updateAndMoveOrderFile(orderId, newState,progressingPath,collectedPath);
+                removeCollectedOrder(orderId); //Scheduled removal
+                break;
+            case OrderState.Ordered:
+                // No file move needed, but case is required for completeness
+                break;
         }
     }
 
@@ -167,7 +182,9 @@ public class OrderHub  {
         if (orderMap.containsKey(orderId)) {
             // Schedule removal after a few seconds
             scheduler.schedule(() -> {
-                orderMap.remove(orderId); //remove collected order
+                synchronized (orderMap) {
+                    orderMap.remove(orderId); //remove collected order
+                }
                 System.out.println("Order " + orderId + " removed from tracker and OrdersMap.");
                 notifyOrderTrackers();
             }, 10, TimeUnit.SECONDS );
@@ -176,7 +193,10 @@ public class OrderHub  {
 
     // Reads details of an order for display in the picker once they started preparing the order.
     public String  getOrderDetailForPicker(int orderId) throws IOException {
-        OrderState state = orderMap.get(orderId);
+        OrderState state;
+        synchronized (orderMap) {
+            state = orderMap.get(orderId);
+        }
         if(state.equals(OrderState.Progressing)) {
             return OrderFileManager.readOrderFile(progressingPath,orderId);
         }else{

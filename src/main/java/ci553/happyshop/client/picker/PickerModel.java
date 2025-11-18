@@ -40,7 +40,7 @@ import java.util.TreeSet;
  */
 
 public class PickerModel {
-    public PickerView pickerView;
+    public ci553.happyshop.client.PickerTrackerView pickerTrackerView;
     private OrderHub orderHub = OrderHub.getOrderHub();
 
     //two elements that need to be passed to PickerView for updating.
@@ -54,6 +54,7 @@ public class PickerModel {
     private int theOrderId=0; //Order ID assigned to a picker;
                               // 0 means no order is currently assigned.
     private OrderState theOrderState;
+    public PickerView pickerView;
 
     /**
      * Attempts to find an unlocked order for this picker and mark it as progressing.
@@ -123,12 +124,14 @@ public class PickerModel {
         }
     }
 
-    // Sets the order map with new data and refreshes the display.
-    // This method is called by OrderHub to set orderMap for picker.
+    // Observer update for picker models
     public void setOrderMap(TreeMap<Integer,OrderState> om) {
-        orderMap.clear();
-        orderMap.putAll(om);
-        displayTaOrderMap= buildOrderMapString();
+        // Defensive copy for thread safety
+        synchronized (PickerModel.class) {
+            orderMap.clear();
+            orderMap.putAll(om);
+        }
+        displayTaOrderMap = buildOrderMapString();
         updatePickerView();
     }
 
@@ -146,6 +149,12 @@ public class PickerModel {
 
     private void updatePickerView()
     {
-        pickerView.update(displayTaOrderMap,displayTaOrderDetail);
+        if (pickerTrackerView != null) {
+            pickerTrackerView.update(displayTaOrderMap, displayTaOrderDetail);
+        }
+    }
+
+    public void setPickerTrackerView(ci553.happyshop.client.PickerTrackerView view) {
+        this.pickerTrackerView = view;
     }
 }

@@ -3,11 +3,6 @@ package ci553.happyshop.client;
 import ci553.happyshop.client.customer.*;
 
 import ci553.happyshop.client.emergency.EmergencyExit;
-import ci553.happyshop.client.orderTracker.OrderTracker;
-import ci553.happyshop.client.picker.PickerController;
-import ci553.happyshop.client.picker.PickerModel;
-import ci553.happyshop.client.picker.PickerView;
-
 import ci553.happyshop.client.warehouse.*;
 import ci553.happyshop.orderManagement.OrderHub;
 import ci553.happyshop.storageAccess.DatabaseRW;
@@ -30,7 +25,7 @@ import java.io.IOException;
  * to simulate a multi-user environment, where multiple clients of the same type interact with the system concurrently.
  *
  * @version 1.0
- * @author  Shine Shan University of Brighton
+ * author  Shine Shan University of Brighton
  */
 
 public class Main extends Application {
@@ -43,17 +38,9 @@ public class Main extends Application {
     @Override
     public void start(Stage window) throws IOException {
         startCustomerClient();
-        startPickerClient();
-        startOrderTracker();
-
-
-        // Initializes the order map for the OrderHub. This must be called after starting the observer clients
-        // (such as OrderTracker and Picker clients) to ensure they are properly registered for receiving updates.
+        startPickerTrackerClient();
         initializeOrderMap();
-
         startWarehouseClient();
-
-
         startEmergencyExit();
     }
 
@@ -91,17 +78,27 @@ public class Main extends Application {
      *
      * Also registers the PickerModel with the OrderHub to receive order notifications.
      */
-    private void startPickerClient(){
-        PickerModel pickerModel = new PickerModel();
-        PickerView pickerView = new PickerView();
-        PickerController pickerController = new PickerController();
-        pickerView.pickerController = pickerController;
+    private void startPickerTrackerClient(){
+        ci553.happyshop.client.picker.PickerModel pickerModel = new ci553.happyshop.client.picker.PickerModel();
+        ci553.happyshop.client.picker.PickerController pickerController = new ci553.happyshop.client.picker.PickerController();
         pickerController.pickerModel = pickerModel;
-        pickerModel.pickerView = pickerView;
-        pickerModel.registerWithOrderHub();
-        pickerView.start(new Stage());
+        PickerTrackerView pickerTrackerView = new PickerTrackerView(pickerController, pickerModel);
+        // Ensure field exists and is public in PickerModel
+        pickerModel.setPickerTrackerView(pickerTrackerView);
+        // Register PickerTrackerView as an order tracker observer
+        OrderHub.getOrderHub().registerOrderTracker(pickerTrackerView);
+        pickerTrackerView.start(new javafx.stage.Stage());
     }
 
+    //initialize the orderMap<orderId, orderState> for OrderHub during system startup
+    private void initializeOrderMap(){
+        OrderHub orderHub = OrderHub.getOrderHub();
+        orderHub.initializeOrderMap();
+    }
+
+    /** The Warehouse GUI- for warehouse staff to manage stock
+     * Initializes the Warehouse client's Model, View, and Controller,and links them together for communication.
+     * It also creates the DatabaseRW instance via the DatabaseRWFactory and injects it into the Model.
     //The OrderTracker GUI - for customer to track their order's state(Ordered, Progressing, Collected)
     //This client is simple and does not follow the MVC pattern, as it only registers with the OrderHub
     //to receive order status notifications. All logic is handled internally within the OrderTracker.
