@@ -71,6 +71,7 @@ public class CustomerView  {
         window.setScene(scene);
         window.setTitle("🛒 HappyShop Customer Client");
         WinPosManager.registerWindow(window,WIDTH,HEIGHT); //calculate position x and y for this window
+        ci553.happyshop.utility.LogoutManager.getInstance().registerWindow(window);
         window.show();
         viewWindow=window;// Sets viewWindow to this window for future reference and management.
     }
@@ -93,6 +94,10 @@ public class CustomerView  {
         tfName.setStyle(UIStyle.textFiledStyle);
         HBox hbName = new HBox(10, laName, tfName);
 
+        Button btnLogout = new Button("Logout");
+        btnLogout.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px; -fx-background-radius: 5px;");
+        btnLogout.setOnAction(e -> ci553.happyshop.utility.LogoutManager.getInstance().logout());
+        
         Label laPlaceHolder = new Label(  " ".repeat(15)); //create left-side spacing so that this HBox aligns with others in the layout.
         Button btnSearch = new Button("Search");
         btnSearch.setStyle(UIStyle.buttonStyle);
@@ -100,7 +105,7 @@ public class CustomerView  {
         Button btnAddToTrolley = new Button("Add to Trolley");
         btnAddToTrolley.setStyle(UIStyle.buttonStyle);
         btnAddToTrolley.setOnAction(this::buttonClicked);
-        HBox hbBtns = new HBox(10, laPlaceHolder,btnSearch, btnAddToTrolley);
+        HBox hbBtns = new HBox(10, laPlaceHolder,btnSearch, btnAddToTrolley, btnLogout);
 
         ivProduct = new ImageView("imageHolder.jpg");
         ivProduct.setFitHeight(60);

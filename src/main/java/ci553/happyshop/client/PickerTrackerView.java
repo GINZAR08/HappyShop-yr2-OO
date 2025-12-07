@@ -44,6 +44,7 @@ public class PickerTrackerView implements OrderTrackerObserver {
         window.setScene(scene);
         window.setTitle("🛒 HappyShop Picker & Tracker");
         WinPosManager.registerWindow(window, WIDTH, HEIGHT);
+        ci553.happyshop.utility.LogoutManager.getInstance().registerWindow(window);
         window.show();
     }
 
@@ -58,8 +59,15 @@ public class PickerTrackerView implements OrderTrackerObserver {
         Button btnProgressing = new Button("Progressing");
         btnProgressing.setOnAction(this::buttonClicked);
         btnProgressing.setStyle(UIStyle.buttonStyle);
+        
+        Button btnLogout = new Button("Logout");
+        btnLogout.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px; -fx-background-radius: 5px;");
+        btnLogout.setOnAction(e -> ci553.happyshop.utility.LogoutManager.getInstance().logout());
+        
+        javafx.scene.layout.HBox hbButtons = new javafx.scene.layout.HBox(10, btnProgressing, btnLogout);
+        hbButtons.setAlignment(javafx.geometry.Pos.CENTER);
 
-        VBox vbOrdersListRoot = new VBox(15, laOrderMapRootTitle, taOrderMap, btnProgressing);
+        VBox vbOrdersListRoot = new VBox(15, laOrderMapRootTitle, taOrderMap, hbButtons);
         vbOrdersListRoot.setAlignment(Pos.TOP_CENTER);
         vbOrdersListRoot.setStyle(UIStyle.rootStyleYellow);
         return vbOrdersListRoot;

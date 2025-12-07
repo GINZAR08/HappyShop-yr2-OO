@@ -151,6 +151,7 @@ public class WarehouseView  {
         window.setTitle("Search_Page  🛒🛒HappyShop_Warehouse🛒🛒  ProductForm_Page(Edit & AddNew Product)");
         WinPosManager.registerWindow(window,WIDTH,HEIGHT); // Registers the window with WinPosManager to
         // dynamically position itself based on its size, and any already displayed windows.
+        ci553.happyshop.utility.LogoutManager.getInstance().registerWindow(window);
         window.show();
         viewWindow = window; // Sets the global viewWindow reference to this window for future reference and management.
     }

@@ -11,6 +11,7 @@ module ci553.happyshop {
     opens ci553.happyshop.client.orderTracker;
     opens ci553.happyshop.client.warehouse;
     opens ci553.happyshop.client.emergency;
+    opens ci553.happyshop.client.auth;
 
     exports ci553.happyshop;
     exports ci553.happyshop.client;
@@ -22,4 +23,6 @@ module ci553.happyshop {
     exports ci553.happyshop.client.picker;
     exports ci553.happyshop.orderManagement;
     exports ci553.happyshop.catalogue;
+    exports ci553.happyshop.client.auth;
+    exports ci553.happyshop.storageAccess;
 }
