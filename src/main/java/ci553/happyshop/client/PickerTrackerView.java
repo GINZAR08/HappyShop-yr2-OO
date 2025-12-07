@@ -43,6 +43,7 @@ public class PickerTrackerView implements OrderTrackerObserver {
         Scene scene = new Scene(tabPane, WIDTH, HEIGHT);
         window.setScene(scene);
         window.setTitle("🛒 HappyShop Picker & Tracker");
+        window.setResizable(true); // Make window resizable
         WinPosManager.registerWindow(window, WIDTH, HEIGHT);
         ci553.happyshop.utility.LogoutManager.getInstance().registerWindow(window);
         window.show();
@@ -55,6 +56,7 @@ public class PickerTrackerView implements OrderTrackerObserver {
         taOrderMap.setEditable(false);
         taOrderMap.setPrefSize(WIDTH, HEIGHT - 100);
         taOrderMap.setStyle(UIStyle.textFiledStyle);
+        VBox.setVgrow(taOrderMap, javafx.scene.layout.Priority.ALWAYS);
 
         Button btnProgressing = new Button("Progressing");
         btnProgressing.setOnAction(this::buttonClicked);
@@ -81,6 +83,7 @@ public class PickerTrackerView implements OrderTrackerObserver {
         taOrderDetail.setPrefSize(WIDTH, HEIGHT - 100);
         taOrderDetail.setText("Order details");
         taOrderDetail.setStyle(UIStyle.textFiledStyle);
+        VBox.setVgrow(taOrderDetail, javafx.scene.layout.Priority.ALWAYS);
 
         Button btnCollected = new Button("Customer Collected");
         btnCollected.setOnAction(this::buttonClicked);

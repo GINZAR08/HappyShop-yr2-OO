@@ -23,13 +23,13 @@ package ci553.happyshop.utility;
 
 public record UIStyle() {
 
-    public static final int customerWinWidth = 600;
-    public static final int customerWinHeight = 300;
+    public static final int customerWinWidth = 800;
+    public static final int customerWinHeight = 400;
     public static final int removeProNotifierWinWidth = customerWinWidth/2 +160;
     public static final int removeProNotifierWinHeight = 230;
 
-    public static final int pickerWinWidth = 310;
-    public static final int pickerWinHeight = 300;
+    public static final int pickerWinWidth = 500;
+    public static final int pickerWinHeight = 400;
 
     public static final int trackerWinWidth = 210;
     public static final int trackerWinHeight = 300;
@@ -55,7 +55,7 @@ public record UIStyle() {
     public static final String comboBoxStyle ="-fx-font-weight: bold; " +
             "-fx-font-size: 14px;";
 
-    public static final String buttonStyle= "-fx-font-size: 15";
+    public static final String buttonStyle= "-fx-font-size: 15; -fx-padding: 8px 12px; -fx-min-width: 80px;";
 
     public static final String rootStyle = "-fx-padding: 8px; " +
             "-fx-background-color: grey";
