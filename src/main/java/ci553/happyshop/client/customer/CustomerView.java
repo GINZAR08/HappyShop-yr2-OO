@@ -57,25 +57,23 @@ public class CustomerView  {
 
     // Holds a reference to this CustomerView window for future access and management
     // (e.g., positioning the removeProductNotifier when needed).
-    private Stage viewWindow;
-
-    public void start(Stage window) {
+    private Stage viewWindow;    public void start(Stage window) {
         VBox vbSearchPage = createSearchPage();
         vbTrolleyPage = CreateTrolleyPage();
         vbBillingPage = createBillingPage();
         vbReceiptPage = createReceiptPage();
 
-        // Create a divider line
+        // Create a divider line with gradient effect
         Line line = new Line(0, 0, 0, HEIGHT);
-        line.setStrokeWidth(4);
-        line.setStroke(Color.PINK);
+        line.setStrokeWidth(2);
+        line.setStroke(Color.web("#BDC3C7"));
         VBox lineContainer = new VBox(line);
-        lineContainer.setPrefWidth(4); // Give it some space
+        lineContainer.setPrefWidth(2);
         lineContainer.setAlignment(Pos.CENTER);
 
-        hbRoot = new HBox(10, vbSearchPage, lineContainer, vbTrolleyPage); //initialize to show trolleyPage
+        hbRoot = new HBox(0, vbSearchPage, lineContainer, vbTrolleyPage); //initialize to show trolleyPage
         hbRoot.setAlignment(Pos.CENTER);
-        hbRoot.setStyle(UIStyle.rootStyle);
+        hbRoot.setStyle("-fx-background-color: #ECF0F1;");
 
         Scene scene = new Scene(hbRoot, WIDTH, HEIGHT);
         
@@ -89,82 +87,102 @@ public class CustomerView  {
         ci553.happyshop.utility.LogoutManager.getInstance().registerWindow(window);
         window.show();
         viewWindow=window;// Sets viewWindow to this window for future reference and management.
-    }
-
-    private VBox createSearchPage() {
-        Label laPageTitle = new Label("Search by Product ID/Name");
-        laPageTitle.setStyle(UIStyle.labelTitleStyle);
+    }private VBox createSearchPage() {
+        Label laPageTitle = new Label("🔍 Search by Product ID/Name");
+        laPageTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #2C3E50;");
 
         Label laId = new Label("ID:      ");
-        laId.setStyle(UIStyle.labelStyle);
+        laId.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495E;");
         tfId = new TextField();
         tfId.setPromptText("eg. 0001");
-        tfId.setStyle(UIStyle.textFiledStyle);
+        tfId.setStyle("-fx-font-size: 14px; -fx-padding: 8px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         HBox hbId = new HBox(10, laId, tfId);
+        hbId.setAlignment(Pos.CENTER_LEFT);
 
         Label laName = new Label("Name:");
-        laName.setStyle(UIStyle.labelStyle);
+        laName.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495E;");
         tfName = new TextField();
         tfName.setPromptText("implement it if you want");
-        tfName.setStyle(UIStyle.textFiledStyle);
+        tfName.setStyle("-fx-font-size: 14px; -fx-padding: 8px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         HBox hbName = new HBox(10, laName, tfName);
+        hbName.setAlignment(Pos.CENTER_LEFT);
 
         Button btnLogout = new Button("Logout");
-        btnLogout.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px; -fx-background-radius: 5px;");
+        btnLogout.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
         btnLogout.setPrefWidth(80);
         btnLogout.setOnAction(e -> ci553.happyshop.utility.LogoutManager.getInstance().logout());
+        btnLogout.setOnMouseEntered(e -> btnLogout.setStyle("-fx-background-color: #C0392B; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnLogout.setOnMouseExited(e -> btnLogout.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
         
         Label laPlaceHolder = new Label(  " ".repeat(15)); //create left-side spacing so that this HBox aligns with others in the layout.
-        Button btnSearch = new Button("Search");
-        btnSearch.setStyle(UIStyle.buttonStyle);
+        Button btnSearch = new Button("🔍 Search");
+        btnSearch.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
         btnSearch.setOnAction(this::buttonClicked);
-        Button btnAddToTrolley = new Button("Add to Trolley");
-        btnAddToTrolley.setStyle(UIStyle.buttonStyle);
-        btnAddToTrolley.setPrefWidth(120);
+        btnSearch.setOnMouseEntered(e -> btnSearch.setStyle("-fx-background-color: #2980B9; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnSearch.setOnMouseExited(e -> btnSearch.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        
+        Button btnAddToTrolley = new Button("🛒 Add to Trolley");
+        btnAddToTrolley.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
+        btnAddToTrolley.setPrefWidth(150);
         btnAddToTrolley.setOnAction(this::buttonClicked);
-        HBox hbBtns = new HBox(10, laPlaceHolder,btnSearch, btnAddToTrolley, btnLogout);
+        btnAddToTrolley.setOnMouseEntered(e -> btnAddToTrolley.setStyle("-fx-background-color: #229954; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnAddToTrolley.setOnMouseExited(e -> btnAddToTrolley.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        
+        HBox hbBtns = new HBox(10, laPlaceHolder, btnSearch, btnAddToTrolley, btnLogout);
 
+        // Product display card with shadow and rounded corners
         ivProduct = new ImageView("imageHolder.jpg");
-        ivProduct.setFitHeight(60);
-        ivProduct.setFitWidth(60);
-        ivProduct.setPreserveRatio(true); // Image keeps its original shape and fits inside 60×60
+        ivProduct.setFitHeight(100);
+        ivProduct.setFitWidth(100);
+        ivProduct.setPreserveRatio(true); // Image keeps its original shape and fits inside 100×100
         ivProduct.setSmooth(true); //make it smooth and nice-looking
+        ivProduct.setStyle("-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);");
 
-        lbProductInfo = new Label("Thank you for shopping with us.");
+        lbProductInfo = new Label("Thank you for shopping with us.\n\n✨ Start by searching for a product using the ID field above!");
         lbProductInfo.setWrapText(true);
         lbProductInfo.setMinHeight(Label.USE_PREF_SIZE);  // Allow auto-resize
-        lbProductInfo.setStyle(UIStyle.labelMulLineStyle);
-        HBox hbSearchResult = new HBox(5, ivProduct, lbProductInfo);
+        lbProductInfo.setStyle("-fx-font-size: 14px; -fx-text-fill: #2C3E50; -fx-padding: 10px;");
+        
+        VBox productInfoBox = new VBox(5, lbProductInfo);
+        productInfoBox.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(productInfoBox, javafx.scene.layout.Priority.ALWAYS);
+        
+        HBox hbSearchResult = new HBox(15, ivProduct, productInfoBox);
         hbSearchResult.setAlignment(Pos.CENTER_LEFT);
+        hbSearchResult.setStyle("-fx-background-color: white; -fx-padding: 15px; -fx-border-color: #E0E0E0; -fx-border-width: 1px; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);");
 
         VBox vbSearchPage = new VBox(15, laPageTitle, hbId, hbName, hbBtns, hbSearchResult);
         vbSearchPage.setPrefWidth(COLUMN_WIDTH);
         vbSearchPage.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(vbSearchPage, javafx.scene.layout.Priority.ALWAYS);
         vbSearchPage.setAlignment(Pos.TOP_CENTER);
-        vbSearchPage.setStyle("-fx-padding: 15px;");
+        vbSearchPage.setStyle("-fx-padding: 20px; -fx-background-color: #ECF0F1;");
 
         return vbSearchPage;
-    }
-
-    private VBox CreateTrolleyPage() {
-        Label laPageTitle = new Label("🛒🛒  Trolley 🛒🛒");
-        laPageTitle.setStyle(UIStyle.labelTitleStyle);
+    }    private VBox CreateTrolleyPage() {
+        Label laPageTitle = new Label("🛒 Your Shopping Trolley");
+        laPageTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #2C3E50;");
 
         taTrolley = new TextArea();
         taTrolley.setEditable(false);
         taTrolley.setPrefSize(WIDTH/2, HEIGHT-50);
+        taTrolley.setStyle("-fx-font-size: 13px; -fx-font-family: 'Consolas', monospace; -fx-control-inner-background: white; -fx-border-color: #E0E0E0; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         VBox.setVgrow(taTrolley, javafx.scene.layout.Priority.ALWAYS);
 
-        Button btnCancel = new Button("Cancel");
+        Button btnCancel = new Button("❌ Cancel");
         btnCancel.setOnAction(this::buttonClicked);
-        btnCancel.setStyle(UIStyle.buttonStyle);
+        btnCancel.setStyle("-fx-background-color: #95A5A6; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
+        btnCancel.setOnMouseEntered(e -> btnCancel.setStyle("-fx-background-color: #7F8C8D; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnCancel.setOnMouseExited(e -> btnCancel.setStyle("-fx-background-color: #95A5A6; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
 
-        Button btnCheckout = new Button("Check Out");
+        Button btnCheckout = new Button("✓ Check Out");
         btnCheckout.setOnAction(this::buttonClicked);
-        btnCheckout.setStyle(UIStyle.buttonStyle);
+        btnCheckout.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
+        btnCheckout.setPrefWidth(120);
+        btnCheckout.setOnMouseEntered(e -> btnCheckout.setStyle("-fx-background-color: #229954; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnCheckout.setOnMouseExited(e -> btnCheckout.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
 
-        HBox hbBtns = new HBox(10, btnCancel,btnCheckout);
+        HBox hbBtns = new HBox(10, btnCancel, btnCheckout);
         hbBtns.setStyle("-fx-padding: 15px;");
         hbBtns.setAlignment(Pos.CENTER);
 
@@ -173,7 +191,7 @@ public class CustomerView  {
         vbTrolleyPage.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(vbTrolleyPage, javafx.scene.layout.Priority.ALWAYS);
         vbTrolleyPage.setAlignment(Pos.TOP_CENTER);
-        vbTrolleyPage.setStyle("-fx-padding: 15px;");
+        vbTrolleyPage.setStyle("-fx-padding: 20px; -fx-background-color: #ECF0F1;");
         return vbTrolleyPage;
     }
 
@@ -264,20 +282,20 @@ public class CustomerView  {
         VBox.setVgrow(scrollPane, javafx.scene.layout.Priority.ALWAYS);
         vbBillingPage.setAlignment(Pos.TOP_CENTER);
         return vbBillingPage;
-    }
-
-    private VBox createReceiptPage() {
-        Label laPageTitle = new Label("Receipt");
-        laPageTitle.setStyle(UIStyle.labelTitleStyle);
+    }    private VBox createReceiptPage() {
+        Label laPageTitle = new Label("📄 Receipt");
+        laPageTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #2C3E50;");
 
         taReceipt = new TextArea();
         taReceipt.setEditable(false);
         taReceipt.setPrefSize(WIDTH/2, HEIGHT-50);
+        taReceipt.setStyle("-fx-font-size: 13px; -fx-font-family: 'Consolas', monospace; -fx-control-inner-background: white; -fx-border-color: #E0E0E0; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         VBox.setVgrow(taReceipt, javafx.scene.layout.Priority.ALWAYS);
 
-        Button btnCloseReceipt = new Button("OK & Close"); //btn for closing receipt and showing trolley page
-        btnCloseReceipt.setStyle(UIStyle.buttonStyle);
-
+        Button btnCloseReceipt = new Button("✓ OK & Close"); //btn for closing receipt and showing trolley page
+        btnCloseReceipt.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
+        btnCloseReceipt.setOnMouseEntered(e -> btnCloseReceipt.setStyle("-fx-background-color: #2980B9; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnCloseReceipt.setOnMouseExited(e -> btnCloseReceipt.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
         btnCloseReceipt.setOnAction(this::buttonClicked);
 
         vbReceiptPage = new VBox(15, laPageTitle, taReceipt, btnCloseReceipt);
@@ -285,19 +303,21 @@ public class CustomerView  {
         vbReceiptPage.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(vbReceiptPage, javafx.scene.layout.Priority.ALWAYS);
         vbReceiptPage.setAlignment(Pos.TOP_CENTER);
-        vbReceiptPage.setStyle(UIStyle.rootStyleYellow);
+        vbReceiptPage.setStyle("-fx-padding: 20px; -fx-background-color: #ECF0F1;");
         return vbReceiptPage;
     }
-
-
     private void buttonClicked(ActionEvent event) {
         try{
             Button btn = (Button)event.getSource();
             String action = btn.getText();
-            if(action.equals("Add to Trolley")){
+            
+            // Handle button actions with emojis - check if text contains the key action word
+            if(action.contains("Add to Trolley")){
                 showTrolleyOrReceiptPage(vbTrolleyPage); //ensure trolleyPage shows if the last customer did not close their receiptPage
+                cusController.doAction("Add to Trolley");
+                return;
             }
-            if(action.equals("Check Out")){
+            if(action.contains("Check Out")){
                 showTrolleyOrReceiptPage(vbBillingPage); //show billing page before checkout
                 return; // Don't call controller yet
             }
@@ -312,9 +332,21 @@ public class CustomerView  {
                 showTrolleyOrReceiptPage(vbTrolleyPage);
                 return;
             }
-            if(action.equals("OK & Close")){
+            if(action.contains("OK & Close")){
                 showTrolleyOrReceiptPage(vbTrolleyPage);
+                cusController.doAction("OK & Close");
+                return;
             }
+            if(action.contains("Search")){
+                cusController.doAction("Search");
+                return;
+            }
+            if(action.contains("Cancel")){
+                cusController.doAction("Cancel");
+                return;
+            }
+            
+            // Fallback for any other buttons
             cusController.doAction(action);
         }
         catch(SQLException e){

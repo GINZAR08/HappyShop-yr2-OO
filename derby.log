@@ -1,8 +1,8 @@
 ----------------------------------------------------------------
-Sun Dec 07 13:00:37 GMT 2025D001 : [0] The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046), [1] a816c00e-019a-f8e6-5c60-00000b962cf8, [2] C:\Users\jd8as\happyshop\HappyShop-yr2-OO\happyShopDB, [3] jdk.internal.loader.ClassLoaders$AppClassLoader@9807454, [4] file:/C:/Users/jd8as/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
-java.vendor=Eclipse Adoptium
-java.runtime.version=21.0.9+10-LTS
-user.dir=C:\Users\jd8as\happyshop\HappyShop-yr2-OO
+Tue Dec 09 11:42:44 GMT 2025D001 : [0] The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046), [1] a816c00e-019b-02eb-c40a-00000cf7a3c0, [2] C:\Users\JJa43\HappyShop-yr2-OO-2\happyShopDB, [3] jdk.internal.loader.ClassLoaders$AppClassLoader@9807454, [4] file:/C:/Users/JJa43/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=21.0.2+13-58
+user.dir=C:\Users\JJa43\HappyShop-yr2-OO-2
 os.name=Windows 11
 os.arch=amd64
 os.version=10.0
