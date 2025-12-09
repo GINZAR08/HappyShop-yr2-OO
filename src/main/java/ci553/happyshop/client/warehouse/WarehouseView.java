@@ -126,43 +126,41 @@ public class WarehouseView  {
     TextField tfPriceNewPro;
     TextField tfStockNewPro;
     TextArea taDescriptionNewPro;
-    private ImageView ivProNewPro;
-    String imageUriNewPro; //user slected image Uri
+    private ImageView ivProNewPro;    String imageUriNewPro; //user slected image Uri
     // URI of the image selected by the user for a new product. This value is retrieved from the image chooser.
 
     public void start(Stage window) {
         VBox vbSearchPage = createSearchPage();
         VBox vbProductFormPage = createProductFormPage();
 
-        // Divider line between SearchPage and ProductFormPage
+        // Divider line between SearchPage and ProductFormPage - modern style
         Line line = new Line(0, 0, 0, HEIGHT);
-        line.setStrokeWidth(4);
-        line.setStroke(Color.LIGHTGREEN);
+        line.setStrokeWidth(2);
+        line.setStroke(Color.web("#BDC3C7"));
         VBox lineContainer = new VBox(line);
-        lineContainer.setPrefWidth(4);
+        lineContainer.setPrefWidth(2);
         lineContainer.setAlignment(Pos.CENTER);
 
         //top level layout manager
-        HBox hbRoot = new HBox(15, vbSearchPage, lineContainer, vbProductFormPage);
-        hbRoot.setStyle(UIStyle.rootStyleWarehouse);
+        HBox hbRoot = new HBox(0, vbSearchPage, lineContainer, vbProductFormPage);
+        hbRoot.setStyle("-fx-background-color: #ECF0F1;");
 
         Scene scene = new Scene(hbRoot, WIDTH, HEIGHT);
         window.setScene(scene);
-        window.setTitle("Search_Page  🛒🛒HappyShop_Warehouse🛒🛒  ProductForm_Page(Edit & AddNew Product)");
+        window.setTitle("🏪 HappyShop Warehouse - Admin Panel");
         window.setResizable(true); // Make window resizable
         WinPosManager.registerWindow(window,WIDTH,HEIGHT); // Registers the window with WinPosManager to
         // dynamically position itself based on its size, and any already displayed windows.
         ci553.happyshop.utility.LogoutManager.getInstance().registerWindow(window);
         window.show();
         viewWindow = window; // Sets the global viewWindow reference to this window for future reference and management.
-    }
-
-    private VBox createSearchPage() {
-        Label laTitle = new Label("Search by product ID/Name");
-        laTitle.setStyle(UIStyle.labelTitleStyle);
+    }    private VBox createSearchPage() {
+        Label laTitle = new Label("🔍 Search Products");
+        laTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #2C3E50;");
 
         tfSearchKeyword = new TextField();
-        tfSearchKeyword.setStyle(UIStyle.textFiledStyle);
+        tfSearchKeyword.setPromptText("Search by ID or name...");
+        tfSearchKeyword.setStyle("-fx-font-size: 14px; -fx-padding: 8px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         tfSearchKeyword.setOnAction(actionEvent -> {
             try {
                 controller.process("🔍");  //pressing enter can also do search
@@ -173,33 +171,43 @@ public class WarehouseView  {
             }
         });
         Button btnSearch = new Button("🔍");
-        //Button btnSearch = new Button("\uD83D\uDD0D"); // Unicode for 🔍
         btnSearch.setOnAction(this::buttonClick);
-        btnSearch.setStyle(UIStyle.buttonStyle);
+        btnSearch.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
+        btnSearch.setOnMouseEntered(e -> btnSearch.setStyle("-fx-background-color: #2980B9; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnSearch.setOnMouseExited(e -> btnSearch.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
         HBox hbSearch = new HBox(10, tfSearchKeyword, btnSearch);
-        hbSearch.setAlignment(Pos.CENTER);
-
-        laSearchSummary = new Label("Search Summary");
-        laSearchSummary.setStyle(UIStyle.labelStyle);
-        Button btnEdit = new Button("Edit");
-        btnEdit.setStyle(UIStyle.greenFillBtnStyle);
+        hbSearch.setAlignment(Pos.CENTER);        laSearchSummary = new Label("Search Summary");
+        laSearchSummary.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495E;");
+        laSearchSummary.setVisible(false);
+        
+        Button btnEdit = new Button("✏️ Edit");
+        btnEdit.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
         btnEdit.setOnAction(this::buttonClick);
+        btnEdit.setOnMouseEntered(e -> btnEdit.setStyle("-fx-background-color: #229954; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnEdit.setOnMouseExited(e -> btnEdit.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
 
-        Button btnDelete = new Button("Delete");
-        btnDelete.setStyle(UIStyle.grayFillBtnStyle);
+        Button btnDelete = new Button("🗑️ Delete");
+        btnDelete.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
         btnDelete.setOnAction(this::buttonClick);
+        btnDelete.setOnMouseEntered(e -> btnDelete.setStyle("-fx-background-color: #C0392B; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnDelete.setOnMouseExited(e -> btnDelete.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
 
-        HBox hbLaBtns = new HBox(10, laSearchSummary, btnEdit,btnDelete);
+        Button btnLogout = new Button("🚪 Logout");
+        btnLogout.setStyle("-fx-background-color: #95A5A6; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
+        btnLogout.setOnAction(e -> ci553.happyshop.utility.LogoutManager.getInstance().logout());
+        btnLogout.setOnMouseEntered(e -> btnLogout.setStyle("-fx-background-color: #7F8C8D; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnLogout.setOnMouseExited(e -> btnLogout.setStyle("-fx-background-color: #95A5A6; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+
+        HBox hbLaBtns = new HBox(10, laSearchSummary, btnEdit, btnDelete, btnLogout);
         hbLaBtns.setAlignment(Pos.CENTER);
         hbLaBtns.setPadding(new Insets(5)); //setPadding only works on Layout manager
-        //hbLaBtns.setStyle("-fx-padding: 5px;"); //setStyle works on any Node (eg. layout manager, controls)
 
         // data, an observable ArrayList, observed by obrLvProducts
         obeProductList = FXCollections.observableArrayList();
         obrLvProducts = new ListView<>(obeProductList);//ListView proListView observes proList
         obrLvProducts.setPrefHeight(HEIGHT - 100);
         obrLvProducts.setFixedCellSize(50);
-        obrLvProducts.setStyle(UIStyle.listViewStyle);
+        obrLvProducts.setStyle("-fx-border-color: #E0E0E0; -fx-border-width: 1px; -fx-background-color: white; -fx-font-size: 14px;");
 
         VBox vbSearchResult = new VBox(5,hbLaBtns, obrLvProducts);
 
@@ -253,11 +261,9 @@ public class WarehouseView  {
          * getResource() is only for static files already bundled inside app.
          * User-selected files are real files on the computer, not inside the app resources.
          */
-    }
-
-    private VBox createProductFormPage() {
+    }    private VBox createProductFormPage() {
         cbProductFormMode = new ComboBox<>();
-        cbProductFormMode.setStyle(UIStyle.comboBoxStyle);
+        cbProductFormMode.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         cbProductFormMode.getItems().addAll("Edit Existing Product in Stock", "Add New Product to Stock");
         // Set default selected value, so only when value changed trigger setOnAction
         cbProductFormMode.setValue("Edit Existing Product in Stock");
@@ -286,23 +292,21 @@ public class WarehouseView  {
         vbProductFormPage.setAlignment(Pos.TOP_CENTER);
         return vbProductFormPage;
     }
-
-
     private VBox createEditProdcutChild() {
         //HBox for Id Label and TextField
         Label laId = new Label("ID"+" ".repeat(8));
-        laId.setStyle(UIStyle.labelStyle);
+        laId.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2C3E50;");
         tfIdEdit = new TextField();
         tfIdEdit.setEditable(false);
-        tfIdEdit.setStyle("-fx-font-size: 14px; -fx-pref-width: 100px;");
+        tfIdEdit.setStyle("-fx-font-size: 14px; -fx-pref-width: 100px; -fx-padding: 6px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         HBox hbId = new HBox(10, laId, tfIdEdit);
         hbId.setAlignment(Pos.CENTER_LEFT);
 
         // HBox for Price Label and TextField
         Label laPrice = new Label("Price_£");
-        laPrice.setStyle(UIStyle.labelStyle);
+        laPrice.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2C3E50;");
         tfPriceEdit = new TextField();
-        tfPriceEdit.setStyle("-fx-font-size: 14px; -fx-pref-width: 100px;");
+        tfPriceEdit.setStyle("-fx-font-size: 14px; -fx-pref-width: 100px; -fx-padding: 6px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         HBox hbPrice = new HBox(10, laPrice, tfPriceEdit);
         hbPrice.setAlignment(Pos.CENTER_LEFT);
 
@@ -321,57 +325,61 @@ public class WarehouseView  {
 
         // HBox for Id, Price, and Image in one row
         HBox hbIdPriceImage = new HBox(20, vbIdPrice, ivProEdit);
-        hbIdPriceImage.setAlignment(Pos.CENTER_LEFT);
-
-        // Editing stock
+        hbIdPriceImage.setAlignment(Pos.CENTER_LEFT);        // Editing stock
         Label laStock = new Label("Stock"+" ".repeat(3));
-        laStock.setStyle(UIStyle.labelStyle);
+        laStock.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2C3E50;");
 
         // TextField current stock
         tfStockEdit = new TextField();
         tfStockEdit.setEditable(false);
-        tfStockEdit.setStyle("-fx-font-size: 14px; -fx-pref-width: 70px;");
+        tfStockEdit.setStyle("-fx-font-size: 14px; -fx-pref-width: 70px; -fx-padding: 6px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
 
         // TextField Change By
         tfChangeByEdit = new TextField();
         tfChangeByEdit.setPromptText("change by");
-        tfChangeByEdit.setStyle("-fx-font-size: 14px; -fx-pref-width: 50px;");
+        tfChangeByEdit.setStyle("-fx-font-size: 14px; -fx-pref-width: 50px; -fx-padding: 6px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
 
         // Add and Subtract Buttons for changing stock
         btnAdd = new Button("➕");
-        btnAdd.setStyle(UIStyle.greenFillBtnStyle);
+        btnAdd.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8px; -fx-background-radius: 5px; -fx-cursor: hand;");
         btnAdd.setPrefWidth(35);
         btnAdd.setOnAction(this::buttonClick);
+        btnAdd.setOnMouseEntered(e -> btnAdd.setStyle("-fx-background-color: #229954; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnAdd.setOnMouseExited(e -> btnAdd.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8px; -fx-background-radius: 5px; -fx-cursor: hand;"));
 
         btnSub = new Button("➖");
-        btnSub.setStyle(UIStyle.redFillBtnStyle);
+        btnSub.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8px; -fx-background-radius: 5px; -fx-cursor: hand;");
         btnSub.setPrefWidth(35);
         btnSub.setOnAction(this::buttonClick);
+        btnSub.setOnMouseEntered(e -> btnSub.setStyle("-fx-background-color: #C0392B; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnSub.setOnMouseExited(e -> btnSub.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 8px; -fx-background-radius: 5px; -fx-cursor: hand;"));
 
         //Hbox for all things related to edit stock
         HBox hbStock = new HBox(10, laStock, tfStockEdit,tfChangeByEdit, btnAdd,btnSub);
-        hbStock.setAlignment(Pos.CENTER_LEFT);
-
-        // VBox for Description label and TextArea
+        hbStock.setAlignment(Pos.CENTER_LEFT);        // VBox for Description label and TextArea
         Label laDes = new Label("Description:");
-        laDes.setStyle(UIStyle.labelStyle);
+        laDes.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2C3E50;");
         taDescriptionEdit = new TextArea();
         taDescriptionEdit.setPrefSize(COLUMN_WIDTH-20, 20);
         taDescriptionEdit.setWrapText(true);
-        taDescriptionEdit.setStyle(UIStyle.textFiledStyle);
+        taDescriptionEdit.setStyle("-fx-font-size: 14px; -fx-padding: 6px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         VBox vbDescription = new VBox(laDes, taDescriptionEdit);
         vbDescription.setAlignment(Pos.CENTER_LEFT);
 
         // OK & Clear Buttons
-        btnCancelEdit = new Button("Cancel");
-        btnCancelEdit.setStyle(UIStyle.grayFillBtnStyle);
+        btnCancelEdit = new Button("❌ Cancel");
+        btnCancelEdit.setStyle("-fx-background-color: #95A5A6; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
         btnCancelEdit.setPrefWidth(100);
         btnCancelEdit.setOnAction(this::buttonClick);
+        btnCancelEdit.setOnMouseEntered(e -> btnCancelEdit.setStyle("-fx-background-color: #7F8C8D; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnCancelEdit.setOnMouseExited(e -> btnCancelEdit.setStyle("-fx-background-color: #95A5A6; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
 
-        btnSubmitEdit = new Button("Submit");
-        btnSubmitEdit.setStyle(UIStyle.blueFillBtnStyle);
+        btnSubmitEdit = new Button("✅ Submit");
+        btnSubmitEdit.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
         btnSubmitEdit.setPrefWidth(100);
         btnSubmitEdit.setOnAction(this::buttonClick);
+        btnSubmitEdit.setOnMouseEntered(e -> btnSubmitEdit.setStyle("-fx-background-color: #2980B9; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnSubmitEdit.setOnMouseExited(e -> btnSubmitEdit.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
 
         // HBox for OK & Cancel Buttons
         HBox hbOkCancelBtns = new HBox(15, btnCancelEdit, btnSubmitEdit);
@@ -380,33 +388,31 @@ public class WarehouseView  {
 
         // Main Layout
         VBox vbEditStockChild = new VBox(10, hbIdPriceImage, hbStock, vbDescription, hbOkCancelBtns);
-        vbEditStockChild.setStyle(UIStyle.manageStockChildStyle);
+        vbEditStockChild.setStyle("-fx-background-color: white; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 15px;");
         return vbEditStockChild;
     }
-
-
     private VBox createNewProductChild() {
         //HBox for Id Label and TextField
         Label laId = new Label("ID"+ " ".repeat(9));
-        laId.setStyle(UIStyle.labelStyle);
+        laId.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2C3E50;");
         tfIdNewPro = new TextField();
-        tfIdNewPro.setStyle("-fx-font-size: 14px; -fx-pref-width: 100px;");
+        tfIdNewPro.setStyle("-fx-font-size: 14px; -fx-pref-width: 100px; -fx-padding: 6px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         HBox hbId = new HBox(10, laId, tfIdNewPro);
         hbId.setAlignment(Pos.CENTER_LEFT);
 
         // HBox for Price Label and TextField
         Label laPrice = new Label("Price_£ ");
-        laPrice.setStyle(UIStyle.labelStyle);
+        laPrice.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2C3E50;");
         tfPriceNewPro = new TextField();
-        tfPriceNewPro.setStyle("-fx-font-size: 14px; -fx-pref-width: 100px;");
+        tfPriceNewPro.setStyle("-fx-font-size: 14px; -fx-pref-width: 100px; -fx-padding: 6px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         HBox hbPrice = new HBox(10, laPrice, tfPriceNewPro);
         hbPrice.setAlignment(Pos.CENTER_LEFT);
 
         //  HBox for stock label and textFiled
         Label laStock = new Label("Stock" +" ".repeat(4));
-        laStock.setStyle(UIStyle.labelStyle);
+        laStock.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2C3E50;");
         tfStockNewPro = new TextField();
-        tfStockNewPro.setStyle("-fx-font-size: 14px; -fx-pref-width: 100px;");
+        tfStockNewPro.setStyle("-fx-font-size: 14px; -fx-pref-width: 100px; -fx-padding: 6px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         HBox hbStock = new HBox(10, laStock, tfStockNewPro);
         hbStock.setAlignment(Pos.CENTER_LEFT);
 
@@ -424,28 +430,30 @@ public class WarehouseView  {
         ivProNewPro.setOnMouseClicked(this::imageChooser);
         //Hbox for id,price,stock,image
         HBox hbIdPriceStockImage = new HBox(20, vbIdPriceStock, ivProNewPro);
-        hbIdPriceStockImage.setAlignment(Pos.CENTER_LEFT);
-
-        // VBox for Description label and TextArea
+        hbIdPriceStockImage.setAlignment(Pos.CENTER_LEFT);        // VBox for Description label and TextArea
         Label laDes = new Label("Description:");
-        laDes.setStyle(UIStyle.labelStyle);
+        laDes.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2C3E50;");
         taDescriptionNewPro = new TextArea();
         taDescriptionNewPro.setPrefSize(COLUMN_WIDTH-20, 20);
         taDescriptionNewPro.setWrapText(true);
-        taDescriptionNewPro.setStyle(UIStyle.textFiledStyle);
+        taDescriptionNewPro.setStyle("-fx-font-size: 14px; -fx-padding: 6px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 4px; -fx-background-radius: 4px;");
         VBox vbDescription = new VBox(laDes, taDescriptionNewPro);
         vbDescription.setAlignment(Pos.CENTER_LEFT);
 
         // OK & Cancel Buttons
-        Button btnClear = new Button("Cancel");
-        btnClear.setStyle(UIStyle.grayFillBtnStyle);
+        Button btnClear = new Button("❌ Cancel");
+        btnClear.setStyle("-fx-background-color: #95A5A6; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
         btnClear.setPrefWidth(100);
         btnClear.setOnAction(this::buttonClick);
+        btnClear.setOnMouseEntered(e -> btnClear.setStyle("-fx-background-color: #7F8C8D; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnClear.setOnMouseExited(e -> btnClear.setStyle("-fx-background-color: #95A5A6; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
 
-        Button btnAddNewPro = new Button("Submit");
-        btnAddNewPro.setStyle(UIStyle.blueFillBtnStyle);
+        Button btnAddNewPro = new Button("✅ Submit");
+        btnAddNewPro.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
         btnAddNewPro.setPrefWidth(100);
         btnAddNewPro.setOnAction(this::buttonClick);
+        btnAddNewPro.setOnMouseEntered(e -> btnAddNewPro.setStyle("-fx-background-color: #2980B9; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnAddNewPro.setOnMouseExited(e -> btnAddNewPro.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
         // HBox for OK & clear Buttons
         HBox hbOkCancelBtns = new HBox(15, btnClear, btnAddNewPro);
         hbOkCancelBtns.setAlignment(Pos.CENTER);
@@ -453,7 +461,7 @@ public class WarehouseView  {
 
         // Main Layout
         VBox vbAddNewProductToStockChild = new VBox(10, hbIdPriceStockImage, vbDescription, hbOkCancelBtns);
-        vbAddNewProductToStockChild.setStyle(UIStyle.manageStockChildStyle1);
+        vbAddNewProductToStockChild.setStyle("-fx-background-color: white; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 15px;");
         return vbAddNewProductToStockChild;
     }
 
@@ -468,14 +476,12 @@ public class WarehouseView  {
         btnCancelEdit.setDisable(disable);
         btnSubmitEdit.setDisable(disable);
     }
-
-
     private void buttonClick(ActionEvent event)  {
         Button btn= (Button)event.getSource();
         String action = btn.getText();
 
         //only when user click btnEidt and a product was selected, enable editable field of editChild
-        if(action.equals("Edit") && obrLvProducts.getSelectionModel().getSelectedItem()!=null) {
+        if(action.contains("Edit") && obrLvProducts.getSelectionModel().getSelectedItem()!=null) {
             disableEditProductChild(false); //a product was selected, enable editChild
             cbProductFormMode.setValue("Edit Existing Product in Stock"); //show EditChild
         }

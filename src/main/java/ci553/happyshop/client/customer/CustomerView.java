@@ -193,87 +193,91 @@ public class CustomerView  {
         vbTrolleyPage.setAlignment(Pos.TOP_CENTER);
         vbTrolleyPage.setStyle("-fx-padding: 20px; -fx-background-color: #ECF0F1;");
         return vbTrolleyPage;
-    }
-
-    private VBox createBillingPage() {
+    }    private VBox createBillingPage() {
         Label laPageTitle = new Label("💳 Billing Information");
-        laPageTitle.setStyle(UIStyle.labelTitleStyle);
+        laPageTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #2C3E50;");
 
         // Customer Name
         Label laCustomerName = new Label("Full Name:");
-        laCustomerName.setStyle(UIStyle.labelStyle);
+        laCustomerName.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495E;");
         tfCustomerName = new TextField();
         tfCustomerName.setPromptText("Enter your full name");
-        tfCustomerName.setStyle(UIStyle.textFiledStyle);
+        tfCustomerName.setStyle("-fx-font-size: 14px; -fx-padding: 8px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         HBox hbCustomerName = new HBox(10, laCustomerName, tfCustomerName);
         hbCustomerName.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(tfCustomerName, javafx.scene.layout.Priority.ALWAYS);
 
         // Email
         Label laEmail = new Label("Email:");
-        laEmail.setStyle(UIStyle.labelStyle);
+        laEmail.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495E;");
         tfEmail = new TextField();
         tfEmail.setPromptText("Enter your email");
-        tfEmail.setStyle(UIStyle.textFiledStyle);
+        tfEmail.setStyle("-fx-font-size: 14px; -fx-padding: 8px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         HBox hbEmail = new HBox(10, laEmail, tfEmail);
         hbEmail.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(tfEmail, javafx.scene.layout.Priority.ALWAYS);
 
         // Address
         Label laAddress = new Label("Address:");
-        laAddress.setStyle(UIStyle.labelStyle);
+        laAddress.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495E;");
         tfAddress = new TextField();
         tfAddress.setPromptText("Street address");
-        tfAddress.setStyle(UIStyle.textFiledStyle);
+        tfAddress.setStyle("-fx-font-size: 14px; -fx-padding: 8px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         HBox hbAddress = new HBox(10, laAddress, tfAddress);
         hbAddress.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(tfAddress, javafx.scene.layout.Priority.ALWAYS);
 
         // City
         Label laCity = new Label("City:");
-        laCity.setStyle(UIStyle.labelStyle);
+        laCity.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495E;");
         tfCity = new TextField();
         tfCity.setPromptText("City");
-        tfCity.setStyle(UIStyle.textFiledStyle);
+        tfCity.setStyle("-fx-font-size: 14px; -fx-padding: 8px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         HBox hbCity = new HBox(10, laCity, tfCity);
         hbCity.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(tfCity, javafx.scene.layout.Priority.ALWAYS);
 
         // Postal Code
         Label laPostalCode = new Label("Postal Code:");
-        laPostalCode.setStyle(UIStyle.labelStyle);
+        laPostalCode.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495E;");
         tfPostalCode = new TextField();
         tfPostalCode.setPromptText("Postal code");
-        tfPostalCode.setStyle(UIStyle.textFiledStyle);
+        tfPostalCode.setStyle("-fx-font-size: 14px; -fx-padding: 8px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         HBox hbPostalCode = new HBox(10, laPostalCode, tfPostalCode);
         hbPostalCode.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(tfPostalCode, javafx.scene.layout.Priority.ALWAYS);
 
         // Card Number
         Label laCardNumber = new Label("Card Number:");
-        laCardNumber.setStyle(UIStyle.labelStyle);
+        laCardNumber.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495E;");
         tfCardNumber = new TextField();
         tfCardNumber.setPromptText("XXXX-XXXX-XXXX-XXXX");
-        tfCardNumber.setStyle(UIStyle.textFiledStyle);
+        tfCardNumber.setStyle("-fx-font-size: 14px; -fx-padding: 8px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         HBox hbCardNumber = new HBox(10, laCardNumber, tfCardNumber);
         hbCardNumber.setAlignment(Pos.CENTER_LEFT);
-
-        // Buttons
-        Button btnBack = new Button("Back to Trolley");
+        HBox.setHgrow(tfCardNumber, javafx.scene.layout.Priority.ALWAYS);// Buttons
+        Button btnBack = new Button("⬅ Back to Trolley");
         btnBack.setOnAction(this::buttonClicked);
-        btnBack.setStyle(UIStyle.buttonStyle);
+        btnBack.setStyle("-fx-background-color: #95A5A6; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
+        btnBack.setPrefWidth(150);        btnBack.setOnMouseEntered(e -> btnBack.setStyle("-fx-background-color: #7F8C8D; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnBack.setOnMouseExited(e -> btnBack.setStyle("-fx-background-color: #95A5A6; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
 
-        Button btnConfirm = new Button("Confirm & Pay");
+        Button btnConfirm = new Button("💳 Confirm & Pay");
         btnConfirm.setOnAction(this::buttonClicked);
-        btnConfirm.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px; -fx-background-radius: 5px;");
-        btnConfirm.setPrefWidth(130);
-
-        HBox hbBtns = new HBox(10, btnBack, btnConfirm);
+        btnConfirm.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
+        btnConfirm.setPrefWidth(150);
+        btnConfirm.setOnMouseEntered(e -> btnConfirm.setStyle("-fx-background-color: #229954; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnConfirm.setOnMouseExited(e -> btnConfirm.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));        HBox hbBtns = new HBox(10, btnBack, btnConfirm);
         hbBtns.setStyle("-fx-padding: 15px;");
         hbBtns.setAlignment(Pos.CENTER);
 
         ScrollPane scrollPane = new ScrollPane();
-        VBox formContent = new VBox(10, laPageTitle, hbCustomerName, hbEmail, hbAddress, hbCity, hbPostalCode, hbCardNumber, hbBtns);
+        VBox formContent = new VBox(15, laPageTitle, hbCustomerName, hbEmail, hbAddress, hbCity, hbPostalCode, hbCardNumber, hbBtns);
         formContent.setAlignment(Pos.TOP_CENTER);
-        formContent.setStyle("-fx-padding: 15px;");
+        formContent.setStyle("-fx-padding: 20px;");
         scrollPane.setContent(formContent);
         scrollPane.setFitToWidth(true);
-        scrollPane.setStyle("-fx-background: lightblue; -fx-background-color: lightblue;");
+        scrollPane.setStyle("-fx-background: #ECF0F1; -fx-background-color: #ECF0F1;");
 
         vbBillingPage = new VBox(scrollPane);
         vbBillingPage.setPrefWidth(COLUMN_WIDTH);
@@ -282,7 +286,7 @@ public class CustomerView  {
         VBox.setVgrow(scrollPane, javafx.scene.layout.Priority.ALWAYS);
         vbBillingPage.setAlignment(Pos.TOP_CENTER);
         return vbBillingPage;
-    }    private VBox createReceiptPage() {
+    }private VBox createReceiptPage() {
         Label laPageTitle = new Label("📄 Receipt");
         laPageTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #2C3E50;");
 
@@ -305,8 +309,7 @@ public class CustomerView  {
         vbReceiptPage.setAlignment(Pos.TOP_CENTER);
         vbReceiptPage.setStyle("-fx-padding: 20px; -fx-background-color: #ECF0F1;");
         return vbReceiptPage;
-    }
-    private void buttonClicked(ActionEvent event) {
+    }    private void buttonClicked(ActionEvent event) {
         try{
             Button btn = (Button)event.getSource();
             String action = btn.getText();
@@ -321,14 +324,14 @@ public class CustomerView  {
                 showTrolleyOrReceiptPage(vbBillingPage); //show billing page before checkout
                 return; // Don't call controller yet
             }
-            if(action.equals("Confirm & Pay")){
+            if(action.contains("Confirm & Pay")){
                 // Validate billing information
                 if(validateBillingInfo()){
                     cusController.doAction("Check Out"); // Process the actual checkout
                 }
                 return;
             }
-            if(action.equals("Back to Trolley")){
+            if(action.contains("Back to Trolley")){
                 showTrolleyOrReceiptPage(vbTrolleyPage);
                 return;
             }

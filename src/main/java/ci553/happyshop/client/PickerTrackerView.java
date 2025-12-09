@@ -47,67 +47,64 @@ public class PickerTrackerView implements OrderTrackerObserver {
         WinPosManager.registerWindow(window, WIDTH, HEIGHT);
         ci553.happyshop.utility.LogoutManager.getInstance().registerWindow(window);
         window.show();
-    }
-
-    private VBox createOrderMapRoot() {
-        Label laOrderMapRootTitle = new Label("Orders Waiting for Processing");
-        laOrderMapRootTitle.setStyle(UIStyle.labelTitleStyle);
+    }    private VBox createOrderMapRoot() {
+        Label laOrderMapRootTitle = new Label("📋 Orders Waiting for Processing");
+        laOrderMapRootTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #2C3E50;");
 
         taOrderMap.setEditable(false);
         taOrderMap.setPrefSize(WIDTH, HEIGHT - 100);
-        taOrderMap.setStyle(UIStyle.textFiledStyle);
+        taOrderMap.setStyle("-fx-font-size: 14px; -fx-font-family: 'Courier New', monospace; -fx-padding: 10px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         VBox.setVgrow(taOrderMap, javafx.scene.layout.Priority.ALWAYS);
 
-        Button btnProgressing = new Button("Progressing");
+        Button btnProgressing = new Button("⏩ Progressing");
         btnProgressing.setOnAction(this::buttonClicked);
-        btnProgressing.setStyle(UIStyle.buttonStyle);
+        btnProgressing.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
+        btnProgressing.setOnMouseEntered(e -> btnProgressing.setStyle("-fx-background-color: #2980B9; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnProgressing.setOnMouseExited(e -> btnProgressing.setStyle("-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
         
-        Button btnLogout = new Button("Logout");
-        btnLogout.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px; -fx-background-radius: 5px;");
+        Button btnLogout = new Button("🚪 Logout");
+        btnLogout.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
         btnLogout.setOnAction(e -> ci553.happyshop.utility.LogoutManager.getInstance().logout());
+        btnLogout.setOnMouseEntered(e -> btnLogout.setStyle("-fx-background-color: #C0392B; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnLogout.setOnMouseExited(e -> btnLogout.setStyle("-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
         
         javafx.scene.layout.HBox hbButtons = new javafx.scene.layout.HBox(10, btnProgressing, btnLogout);
         hbButtons.setAlignment(javafx.geometry.Pos.CENTER);
 
         VBox vbOrdersListRoot = new VBox(15, laOrderMapRootTitle, taOrderMap, hbButtons);
         vbOrdersListRoot.setAlignment(Pos.TOP_CENTER);
-        vbOrdersListRoot.setStyle(UIStyle.rootStyleYellow);
+        vbOrdersListRoot.setStyle("-fx-padding: 15px; -fx-background-color: #ECF0F1;");
         return vbOrdersListRoot;
-    }
-
-    private VBox createOrderDetailRoot() {
-        laDetailRootTitle = new Label("Progressing Order Details");
-        laDetailRootTitle.setStyle(UIStyle.labelTitleStyle);
+    }    private VBox createOrderDetailRoot() {
+        laDetailRootTitle = new Label("📦 Progressing Order Details");
+        laDetailRootTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #2C3E50;");
 
         taOrderDetail.setEditable(false);
         taOrderDetail.setPrefSize(WIDTH, HEIGHT - 100);
         taOrderDetail.setText("Order details");
-        taOrderDetail.setStyle(UIStyle.textFiledStyle);
+        taOrderDetail.setStyle("-fx-font-size: 14px; -fx-font-family: 'Courier New', monospace; -fx-padding: 10px; -fx-border-color: #BDC3C7; -fx-border-width: 1px; -fx-border-radius: 5px; -fx-background-radius: 5px;");
         VBox.setVgrow(taOrderDetail, javafx.scene.layout.Priority.ALWAYS);
 
-        Button btnCollected = new Button("Customer Collected");
+        Button btnCollected = new Button("✅ Customer Collected");
         btnCollected.setOnAction(this::buttonClicked);
-        btnCollected.setStyle(UIStyle.buttonStyle);
+        btnCollected.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;");
+        btnCollected.setOnMouseEntered(e -> btnCollected.setStyle("-fx-background-color: #229954; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
+        btnCollected.setOnMouseExited(e -> btnCollected.setStyle("-fx-background-color: #27AE60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 10px 16px; -fx-background-radius: 5px; -fx-cursor: hand;"));
 
         VBox vbOrderDetailsRoot = new VBox(15, laDetailRootTitle, taOrderDetail, btnCollected);
         vbOrderDetailsRoot.setAlignment(Pos.TOP_CENTER);
-        vbOrderDetailsRoot.setStyle(UIStyle.rootStyleBlue);
+        vbOrderDetailsRoot.setStyle("-fx-padding: 15px; -fx-background-color: #ECF0F1;");
         return vbOrderDetailsRoot;
-    }
-
-    private void buttonClicked(ActionEvent event) {
+    }    private void buttonClicked(ActionEvent event) {
         Button button = (Button) event.getSource();
         String btnText = button.getText();
         try {
-            switch (btnText) {
-                case "Progressing":
-                    tabPane.getSelectionModel().select(tabOrderDetail);
-                    pickerController.doProgressing();
-                    break;
-                case "Customer Collected":
-                    pickerController.doCollected();
-                    tabPane.getSelectionModel().select(tabOrderMap);
-                    break;
+            if (btnText.contains("Progressing")) {
+                tabPane.getSelectionModel().select(tabOrderDetail);
+                pickerController.doProgressing();
+            } else if (btnText.contains("Customer Collected")) {
+                pickerController.doCollected();
+                tabPane.getSelectionModel().select(tabOrderMap);
             }
         } catch (IOException e) {
             throw new RuntimeException("Failed to handle button action: " + btnText, e);
