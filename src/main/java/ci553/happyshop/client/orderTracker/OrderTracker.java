@@ -20,7 +20,7 @@ import java.util.TreeMap;
  * The ordersMap data is received from the OrderHub.
  */
 
-public class OrderTracker {
+public class OrderTracker implements OrderTrackerObserver {
     private final int WIDTH = UIStyle.trackerWinWidth;
     private final int HEIGHT = UIStyle.trackerWinHeight;
 
@@ -64,6 +64,7 @@ public class OrderTracker {
      * Sets the order map with new data and refreshes the display.
      * This method is called by OrderHub when order states are updated.
      */
+    @Override
     public void setOrderMap(TreeMap<Integer, OrderState> om) {
         ordersMap.clear(); // Clears the current map to replace it with the new data.
         ordersMap.putAll(om);// Adds all new order data to the map.
