@@ -47,77 +47,74 @@ public class LoginView {
         stage.setTitle("HappyShop - Login");
         
         // Main container
-        VBox root = new VBox(20);
+        HBox root = new HBox();
         root.setAlignment(Pos.CENTER);
-        root.setPadding(new Insets(30));
-        root.setStyle("-fx-background-color: linear-gradient(to bottom, #4A90E2, #87CEEB);");
+        root.setStyle("-fx-background-color: #f5f5f5;");
         
-        // Title
-        Label titleLabel = new Label("Welcome to HappyShop");
-        titleLabel.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;");
-        
-        Label subtitleLabel = new Label("Please login to continue");
-        subtitleLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
-        
-        // Login form container
+        // Login form container - wider and simpler
         VBox formContainer = new VBox(15);
         formContainer.setAlignment(Pos.CENTER);
-        formContainer.setPadding(new Insets(30));
-        formContainer.setStyle("-fx-background-color: white; -fx-background-radius: 10; " +
-                               "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 2);");
-        formContainer.setMaxWidth(400);
+        formContainer.setPadding(new Insets(40, 60, 40, 60));
+        formContainer.setStyle("-fx-background-color: white;");
         
-        // Username field
-        Label usernameLabel = new Label("Username:");
-        usernameLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        // Title
+        Label titleLabel = new Label("HappyShop Login");
+        titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333;");
+        
+        // Username and Password in horizontal layout
+        HBox credentialsBox = new HBox(20);
+        credentialsBox.setAlignment(Pos.CENTER);
+        
+        VBox usernameBox = new VBox(5);
+        Label usernameLabel = new Label("Username");
+        usernameLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #666;");
         TextField usernameField = new TextField();
         usernameField.setPromptText("Enter username");
         usernameField.setStyle(UIStyle.textFiledStyle);
-        usernameField.setPrefWidth(300);
+        usernameField.setPrefWidth(200);
+        usernameBox.getChildren().addAll(usernameLabel, usernameField);
         
-        // Password field
-        Label passwordLabel = new Label("Password:");
-        passwordLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        VBox passwordBox = new VBox(5);
+        Label passwordLabel = new Label("Password");
+        passwordLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #666;");
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Enter password");
         passwordField.setStyle(UIStyle.textFiledStyle);
-        passwordField.setPrefWidth(300);
+        passwordField.setPrefWidth(200);
+        passwordBox.getChildren().addAll(passwordLabel, passwordField);
         
-        // Role selection
-        Label roleLabel = new Label("Login as:");
-        roleLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        credentialsBox.getChildren().addAll(usernameBox, passwordBox);
         
+        // Role selection - horizontal
         ToggleGroup roleGroup = new ToggleGroup();
         RadioButton customerRadio = new RadioButton("Customer");
         customerRadio.setToggleGroup(roleGroup);
         customerRadio.setSelected(true);
-        customerRadio.setStyle("-fx-font-size: 14px;");
+        customerRadio.setStyle("-fx-font-size: 13px;");
         
         RadioButton adminRadio = new RadioButton("Admin");
         adminRadio.setToggleGroup(roleGroup);
-        adminRadio.setStyle("-fx-font-size: 14px;");
+        adminRadio.setStyle("-fx-font-size: 13px;");
         
-        HBox roleBox = new HBox(20, customerRadio, adminRadio);
+        HBox roleBox = new HBox(30, customerRadio, adminRadio);
         roleBox.setAlignment(Pos.CENTER);
         
         // Error message label
         Label errorLabel = new Label();
-        errorLabel.setStyle("-fx-text-fill: red; -fx-font-size: 12px; -fx-font-weight: bold;");
+        errorLabel.setStyle("-fx-text-fill: #d32f2f; -fx-font-size: 12px;");
         errorLabel.setVisible(false);
         
         // Login button
         Button loginButton = new Button("Login");
         loginButton.setStyle("-fx-background-color: #4A90E2; -fx-text-fill: white; " +
-                            "-fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 10 40;");
-        loginButton.setPrefWidth(150);
+                            "-fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 50; -fx-cursor: hand;");
         
-        // Hover effects
         loginButton.setOnMouseEntered(e -> 
             loginButton.setStyle("-fx-background-color: #357ABD; -fx-text-fill: white; " +
-                                "-fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 10 40;"));
+                                "-fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 50; -fx-cursor: hand;"));
         loginButton.setOnMouseExited(e -> 
             loginButton.setStyle("-fx-background-color: #4A90E2; -fx-text-fill: white; " +
-                                "-fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 10 40;"));
+                                "-fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 10 50; -fx-cursor: hand;"));
         
         // Login action
         loginButton.setOnAction(e -> handleLogin(
@@ -131,24 +128,23 @@ public class LoginView {
         passwordField.setOnAction(e -> loginButton.fire());
         
         // Help text
-        Label helpLabel = new Label("Default credentials:\nCustomer: customer/customer123\nAdmin: admin/admin123");
-        helpLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #666; -fx-text-alignment: center;");
-        helpLabel.setAlignment(Pos.CENTER);
+        Label helpLabel = new Label("Customer: customer/customer123  |  Admin: admin/admin123");
+        helpLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: #999;");
         
         // Add all components to form container
         formContainer.getChildren().addAll(
-            usernameLabel, usernameField,
-            passwordLabel, passwordField,
-            roleLabel, roleBox,
+            titleLabel,
+            credentialsBox,
+            roleBox,
             errorLabel,
             loginButton,
             helpLabel
         );
         
-        // Add everything to root
-        root.getChildren().addAll(titleLabel, subtitleLabel, formContainer);
+        // Add form to root
+        root.getChildren().add(formContainer);
         
-        Scene scene = new Scene(root, 500, 600);
+        Scene scene = new Scene(root, 700, 400);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
