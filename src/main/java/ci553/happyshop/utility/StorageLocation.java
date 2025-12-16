@@ -37,6 +37,9 @@ import java.nio.file.Paths;
  * By centralizing all locations for external storage in this class,
  * any changes to these directory only need to be made here.
  * This avoids the need to modify the path throughout the entire codebase.
+ *
+ * All paths are relative to the application's working directory to ensure portability
+ * across different computers and installations.
  */
 
 public class StorageLocation {
@@ -46,17 +49,20 @@ public class StorageLocation {
      * such as: String relativeImageUrl = StorageLocation.imageFolder + imageName;
      */
 
+    // Base directory for all application data (current working directory)
+    public static final Path appBaseDir = Paths.get("").toAbsolutePath();
+
     // working Image folder
     public static final String imageFolder = "images/";
-    public static final Path imageFolderPath = Paths.get(imageFolder);
+    public static final Path imageFolderPath = appBaseDir.resolve("images");
 
     // Backup image folder — used to restore images when resetting the database
     public static final String imageResetFolder = "images_resetDB";
-    public static final Path imageResetFolderPath = Paths.get(imageResetFolder);
+    public static final Path imageResetFolderPath = appBaseDir.resolve("images_resetDB");
 
     // Orders folders and their Path
     public static final String ordersFolder = "orders";
-    public static final Path ordersPath = Paths.get(ordersFolder);
+    public static final Path ordersPath = appBaseDir.resolve("orders");
     public static final Path orderedPath = ordersPath.resolve("ordered");//orders/ordered to store orders at Ordered state
     public static final Path progressingPath = ordersPath.resolve("progressing");// orders/progressing to store orders at Progressing state
     public static final Path collectedPath = ordersPath.resolve("collected");//orders/collected to store orders at Collected state
