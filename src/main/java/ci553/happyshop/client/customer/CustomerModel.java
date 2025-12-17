@@ -34,6 +34,13 @@ public class CustomerModel {
     private String displayTaTrolley = "";                                // Text area content showing current trolley items (Trolley Page)
     private String displayTaReceipt = "";                                // Text area content showing receipt after checkout (Receipt Page)
 
+    // Admin observer for real-time troubleshooting
+    private AdminObserver adminObserver;
+
+    public void setAdminObserver(AdminObserver observer) {
+        this.adminObserver = observer;
+    }
+
     //SELECT productID, description, image, unitPrice,inStock quantity
     void search() throws SQLException {
         String productId = cusView.tfId.getText().trim();
@@ -159,9 +166,7 @@ public class CustomerModel {
     }
     void closeReceipt(){
         displayTaReceipt="";
-    }
-
-    void updateView() {
+    }    void updateView() {
         if(theProduct != null){
             imageName = theProduct.getProductImageName();
             String relativeImageUrl = StorageLocation.imageFolder +imageName; //relative file path, eg images/0001.jpg
@@ -174,6 +179,11 @@ public class CustomerModel {
             imageName = "imageHolder.jpg";
         }
         cusView.update(imageName, displayLaSearchResult, displayTaTrolley,displayTaReceipt);
+        
+        // Notify admin observer for real-time troubleshooting
+        if(adminObserver != null){
+            adminObserver.onCustomerActivity(imageName, displayLaSearchResult, displayTaTrolley, displayTaReceipt);
+        }
     }
      // extra notes:
      //Path.toUri(): Converts a Path object (a file or a directory path) to a URI object.

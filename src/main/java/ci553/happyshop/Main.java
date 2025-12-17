@@ -82,8 +82,7 @@ public class Main extends Application {
      *
      * Also creates the RemoveProductNotifier, which tracks the position of the Customer View
      * and is triggered by the Customer Model when needed.
-     */
-    private void startCustomerClient(){
+     */    private void startCustomerClient(){
         CustomerView cusView = new CustomerView();
         CustomerController cusController = new CustomerController();
         CustomerModel cusModel = new CustomerModel();
@@ -94,6 +93,12 @@ public class Main extends Application {
         cusModel.cusView = cusView;
         cusModel.databaseRW = databaseRW;
         cusView.start(new Stage());
+
+        // Register admin activity monitor if available (for real-time troubleshooting)
+        ci553.happyshop.client.warehouse.AdminActivityMonitor monitor = ci553.happyshop.client.warehouse.AdminActivityMonitorHolder.getMonitor();
+        if (monitor != null) {
+            cusModel.setAdminObserver(monitor);
+        }
 
         //RemoveProductNotifier removeProductNotifier = new RemoveProductNotifier();
         //removeProductNotifier.cusView = cusView;
@@ -126,9 +131,7 @@ public class Main extends Application {
     private void initializeOrderMap(){
         OrderHub orderHub = OrderHub.getOrderHub();
         orderHub.initializeOrderMap();
-    }
-
-    /** The Warehouse GUI- for warehouse staff to manage stock
+    }    /** The Warehouse GUI- for warehouse staff to manage stock
      * Initializes the Warehouse client's Model, View, and Controller,and links them together for communication.
      * It also creates the DatabaseRW instance via the DatabaseRWFactory and injects it into the Model.
      * Once the components are linked, the warehouse interface (view) is started.
@@ -159,6 +162,11 @@ public class Main extends Application {
         model.alertSimulator = alertSimulator;
         historyWindow.warehouseView = view;
         alertSimulator.warehouseView = view;
+
+        // Create admin activity monitor for real-time customer troubleshooting
+        ci553.happyshop.client.warehouse.AdminActivityMonitor monitor = new ci553.happyshop.client.warehouse.AdminActivityMonitor();
+        // Store globally so we can register customer models with it
+        AdminActivityMonitorHolder.setMonitor(monitor);
     }
 
     //starts the EmergencyExit GUI, - used to close the entire application immediately
