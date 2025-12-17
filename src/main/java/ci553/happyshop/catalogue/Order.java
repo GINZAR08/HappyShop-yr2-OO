@@ -36,41 +36,43 @@ public class Order {
     private String orderedDateTime="";
     private String progressingDateTime="";
     private String collectedDateTime="";
+    private String customerUsername = ""; // Track which account made the order
     private ArrayList<Product> productList = new ArrayList<>(); //Trolley
 
     // Constructor used by OrderHub to create a new order for a customer.
-    // Initializes the order with an ID, state, order date/time, and a list of ordered products.
-    public Order(int orderId,OrderState state, String orderedDateTime,ArrayList<Product> productList) {
+    // Initializes the order with an ID, state, order date/time, customer username, and a list of ordered products.
+    public Order(int orderId,OrderState state, String orderedDateTime, String customerUsername, ArrayList<Product> productList) {
         this.orderId = orderId;
         this.state = state;
         this.orderedDateTime =orderedDateTime;
+        this.customerUsername = customerUsername;
         this.productList = new ArrayList<>(productList);
-    }
-
-    //a set of getter methods
+    }    //a set of getter methods
     public int getOrderId() { return orderId;}
     public OrderState getState() { return state; }
     public String getOrderedDateTime(){ return orderedDateTime; }
+    public String getCustomerUsername() { return customerUsername; }
     public ArrayList<Product> getProductList() {
         return productList;
     }
 
-    public void setState(OrderState state) { this.state = state; }
-
-    /**
+    public void setState(OrderState state) { this.state = state; }    /**
      * order details written to file, used by OrderHub
      *  - Order metadata (ID, state, and three timestamps)
-     *  -Product details included in the order
+     *  - Customer username who placed the order
+     *  - Product details included in the order
      */
     public String orderDetails() {
         return String.format("Order ID: %s \n" +
                         "State: %s \n" +
+                        "Customer: %s \n" +
                         "OrderedDateTime: %s \n" +
                         "ProgressingDateTime: %s \n" +
                         "CollectedDateTime: %s\n" +
                         "Items:\n%s",
                 orderId,
                 state,
+                customerUsername,
                 orderedDateTime,
                 progressingDateTime,
                 collectedDateTime,

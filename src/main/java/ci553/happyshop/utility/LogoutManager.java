@@ -1,5 +1,6 @@
 package ci553.happyshop.utility;
 
+import ci553.happyshop.client.auth.SessionManager;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
@@ -48,6 +49,9 @@ public class LogoutManager {
      * Performs logout - closes all windows and shows login screen
      */
     public void logout() {
+        // Clear the current session
+        SessionManager.getInstance().clearSession();
+        
         // Close all registered windows
         for (Stage window : openWindows) {
             Platform.runLater(() -> window.close());

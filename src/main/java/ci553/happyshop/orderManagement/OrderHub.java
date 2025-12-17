@@ -68,15 +68,13 @@ public class OrderHub  {
         if (orderHub == null)
             orderHub = new OrderHub();
             return orderHub;
-    }
-
-    //Creates a new order using the provided list of products.
+    }    //Creates a new order using the provided list of products.
     //and also notify picker and orderTracker
-    public Order newOrder(ArrayList<Product> trolley) throws IOException, SQLException {
+    public Order newOrder(ArrayList<Product> trolley, String customerUsername) throws IOException, SQLException {
         int orderId = OrderCounter.generateOrderId(); //get unique orderId
         String orderedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        //make an Order Object: id, Ordered_state, orderedDateTime, and productsList(trolley)
-        Order theOrder = new Order(orderId,OrderState.Ordered,orderedDateTime,trolley);
+        //make an Order Object: id, Ordered_state, orderedDateTime, customerUsername, and productsList(trolley)
+        Order theOrder = new Order(orderId,OrderState.Ordered,orderedDateTime,customerUsername,trolley);
 
         //write order details to file for the orderId in orderedPath (ie. orders/ordered)
         String orderDetail = theOrder.orderDetails();

@@ -6,6 +6,7 @@ import ci553.happyshop.storageAccess.DatabaseRW;
 import ci553.happyshop.orderManagement.OrderHub;
 import ci553.happyshop.utility.StorageLocation;
 import ci553.happyshop.utility.ProductListFormatter;
+import ci553.happyshop.client.auth.SessionManager;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -79,9 +80,7 @@ public class CustomerModel {
         }
         displayTaReceipt=""; // Clear receipt to switch back to trolleyPage (receipt shows only when not empty)
         updateView();
-    }
-
-    void checkOut() throws IOException, SQLException {
+    }    void checkOut() throws IOException, SQLException {
         if(!trolley.isEmpty()){
             // Group the products in the trolley by productId to optimize stock checking
             // Check the database for sufficient stock for all products in the trolley.
@@ -94,7 +93,9 @@ public class CustomerModel {
             if(insufficientProducts.isEmpty()){ // If stock is sufficient for all products
                 //get OrderHub and tell it to make a new Order
                 OrderHub orderHub =OrderHub.getOrderHub();
-                Order theOrder = orderHub.newOrder(trolley);
+                // Get the currently logged-in customer's username
+                String customerUsername = SessionManager.getInstance().getCurrentUser();
+                Order theOrder = orderHub.newOrder(trolley, customerUsername);
                 trolley.clear();
                 displayTaTrolley ="";
                 displayTaReceipt = String.format(
