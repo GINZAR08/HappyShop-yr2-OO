@@ -1,5 +1,6 @@
 package ci553.happyshop.client;
 
+import ci553.happyshop.client.admin.CustomerTestPage;
 import ci553.happyshop.client.picker.PickerController;
 import ci553.happyshop.client.picker.PickerModel;
 import ci553.happyshop.client.orderTracker.OrderTrackerObserver;
@@ -31,13 +32,16 @@ public class PickerTrackerView implements OrderTrackerObserver {
 
     public PickerTrackerView(PickerController pickerController, PickerModel pickerModel) {
         this.pickerController = pickerController;
-    }
-
-    public void start(Stage window) {
+    }    public void start(Stage window) {
         tabPane = new TabPane();
         tabOrderMap = new Tab("Order Map", createOrderMapRoot());
         tabOrderDetail = new Tab("Order Detail", createOrderDetailRoot());
-        tabPane.getTabs().addAll(tabOrderMap, tabOrderDetail);
+        
+        // Add customer test tab for admin testing
+        CustomerTestPage customerTestPage = new CustomerTestPage(WIDTH, HEIGHT);
+        Tab tabCustomerTest = new Tab("🧪 Customer Test", customerTestPage.createRoot());
+        
+        tabPane.getTabs().addAll(tabOrderMap, tabOrderDetail, tabCustomerTest);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         Scene scene = new Scene(tabPane, WIDTH, HEIGHT);
