@@ -67,8 +67,7 @@ public class CustomerView  {
         Line line = new Line(0, 0, 0, HEIGHT);
         line.setStrokeWidth(2);
         line.setStroke(Color.web("#BDC3C7"));
-        VBox lineContainer = new VBox(line);
-        lineContainer.setPrefWidth(2);
+        VBox lineContainer = new VBox(line);        lineContainer.setPrefWidth(2);
         lineContainer.setAlignment(Pos.CENTER);
 
         hbRoot = new HBox(0, vbSearchPage, lineContainer, vbTrolleyPage); //initialize to show trolleyPage
@@ -83,11 +82,21 @@ public class CustomerView  {
         window.setScene(scene);
         window.setTitle("🛒 HappyShop Customer Client");
         window.setResizable(true); // Make window resizable
-        WinPosManager.registerWindow(window,WIDTH,HEIGHT); //calculate position x and y for this window
+        
+        // Center the window on the screen
+        window.setOnShown(e -> {
+            javafx.stage.Screen screen = javafx.stage.Screen.getPrimary();
+            javafx.geometry.Rectangle2D screenBounds = screen.getVisualBounds();
+            window.setX((screenBounds.getWidth() - WIDTH) / 2);
+            window.setY((screenBounds.getHeight() - HEIGHT) / 2);
+        });
+          WinPosManager.registerWindow(window,WIDTH,HEIGHT); //calculate position x and y for this window
         ci553.happyshop.utility.LogoutManager.getInstance().registerWindow(window);
         window.show();
         viewWindow=window;// Sets viewWindow to this window for future reference and management.
-    }private VBox createSearchPage() {
+    }
+
+    private VBox createSearchPage() {
         Label laPageTitle = new Label("🔍 Search by Product ID/Name");
         laPageTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: #2C3E50;");
 
