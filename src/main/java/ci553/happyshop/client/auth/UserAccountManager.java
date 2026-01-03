@@ -9,8 +9,7 @@ import java.util.Map;
  * 
  * This is a singleton pattern to ensure only one instance manages all accounts.
  * 
- * @author GitHub Copilot
- * @version 1.0
+ *
  */
 public class UserAccountManager {
     private static UserAccountManager instance;

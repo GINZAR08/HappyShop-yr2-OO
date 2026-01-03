@@ -17,8 +17,7 @@ import java.util.function.Consumer;
  * a Customer or an Admin. It also provides an interface to create new accounts.
  * Upon successful login, it invokes a callback with the selected user role.
  *
- * @author GitHub Copilot
- * @version 2.0
+ * 
  */
 public class LoginView {
     

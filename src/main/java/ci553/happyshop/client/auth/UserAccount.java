@@ -4,8 +4,7 @@ package ci553.happyshop.client.auth;
  * UserAccount represents a user account with username, password, and role.
  * This is a simple data class for storing user information.
  * 
- * @author GitHub Copilot
- * @version 1.0
+ * 
  */
 public class UserAccount {
     private String username;

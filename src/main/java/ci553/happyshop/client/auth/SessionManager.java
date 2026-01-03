@@ -7,8 +7,7 @@ package ci553.happyshop.client.auth;
  * This class is used to track which user is currently logged in so that
  * their username can be retrieved when needed (e.g., when placing an order).
  * 
- * @author GitHub Copilot
- * @version 1.0
+ * 
  */
 public class SessionManager {
     private static SessionManager instance;

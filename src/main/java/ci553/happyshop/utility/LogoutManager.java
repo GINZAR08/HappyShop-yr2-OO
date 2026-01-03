@@ -12,8 +12,7 @@ import java.util.List;
  * It tracks all open windows and provides a mechanism to close them all
  * and return to the login screen.
  * 
- * @author GitHub Copilot
- * @version 1.0
+ * 
  */
 public class LogoutManager {
     private static LogoutManager instance;
