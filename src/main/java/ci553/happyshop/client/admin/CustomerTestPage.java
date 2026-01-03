@@ -15,8 +15,8 @@ import javafx.stage.Stage;
  * 
  * This is useful for QA testing and debugging customer features.
  * 
- * @author GitHub Copilot
- * @version 1.0
+ * 
+ * 
  */
 public class CustomerTestPage {
     private final int WIDTH;
